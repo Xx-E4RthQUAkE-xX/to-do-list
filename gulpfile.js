@@ -24,7 +24,7 @@ gulp.task('server', ['webpack'], function(cb) {
         ]
     }).on('start', function() {
         if (!started) {
-            started = ture;
+            started = true;
             cb();
         }
     }).on('error', function(err) {

@@ -1,0 +1,31 @@
+extends layout.pug
+
+block head
+    
+block content
+  .container
+    #todo.row
+      .col-md-10.col-md-offset-1
+        form(v-on:submit="createToDo")
+          h1 やるべき事
+          .form-group
+            textarea.form-control(v-model="newTodo.body" required)
+          .form-group
+            input.btn.btn-primary.btn-block(type="submit" value="追加")
+        mixin todos(title, targetTodos)
+          .panel-group
+            h2= title
+            .panel.panel-default(v-for=`todo in ${targetTodos}`)
+              .panel-body
+                label
+                  input(type="checkbox" v-model="todo.isCompleted")
+                  input.form-control.input-sm(type="text" v-model="todo.body")
+              .panel-footer
+                button.btn.btn-default.btn-sm(type="button" v-on:click="deleteToDo(todo)")
+                  span.glyphicon.glyphicon-trash Delete
+        .col-md-6.col-md-offset-3
+          +todos('未完了', 'activeTodos')
+        .col-md-6.col-md-offset-3
+          +todos('完了', 'completedTodos')
+          button.btn.btn-danger.btn-block(type="button" v-on:click="purgeTodos()" v-if="completedTodos.length")
+            span.glyphicon.glyphicon-trash
